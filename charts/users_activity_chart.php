@@ -86,11 +86,12 @@ class disciple_tools_user_activity_report_Chart_Template extends DT_Metrics_Char
 
     public function user_activity( WP_REST_Request $request ) {
         global $wpdb;
-        $userids = get_users( array( 'fields' => array( 'ID' ) ) );
+        $userids = get_users( array( 'fields' => array( 'ID', 'display_name' ) ) );
         $all_user_activity = array();
 
         foreach ($userids as $userid) {
-            //TODO: Make hist_time dynamic
+            $contact_fields = DT_Posts::get_post_field_settings( "contacts" );
+            //TODO: Make hist_time comparison based on user selection
             $user_activity = $wpdb->get_results( $wpdb->prepare( "
             SELECT user_id, hist_time, meta_id, meta_key, meta_value
             FROM $wpdb->dt_activity_log
@@ -99,7 +100,23 @@ class disciple_tools_user_activity_report_Chart_Template extends DT_Metrics_Char
             AND meta_key LIKE '%quick_button%'
             ", $userid->ID), ARRAY_A );
 
-            $all_user_activity = array_merge($all_user_activity, $user_activity);
+            $all_user_activity[ $userid->display_name ] = array();
+
+            $contact_fields = DT_Posts::get_post_field_settings( "contacts" );
+
+            foreach($user_activity as $action) {
+                $quick_action_key = $action["meta_key"];
+
+                $quick_action_total = isset($all_user_activity[ $userid->display_name ][$quick_action_key]) && !empty($all_user_activity[ $userid->display_name ][$quick_action_key]) ? $all_user_activity[ $userid->display_name ][$quick_action_key][1] : 0;
+
+                $quick_action_total++;
+
+                $all_user_activity[ $userid->display_name ][$quick_action_key][0] = $contact_fields[$quick_action_key]['name'];
+
+                $all_user_activity[ $userid->display_name ][$quick_action_key][1] = $quick_action_total;
+
+            }
+
         }
         return $all_user_activity;
     }
