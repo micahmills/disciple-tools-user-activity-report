@@ -21,25 +21,31 @@
 
     chartDiv.empty().html(`
       <span class="section-header">${localizedObject.translations.title}</span>
-
+      <div class="date_range_picker">
+        <i class="fi-calendar"></i>&nbsp;
+        <span>${moment().format("YYYY")}</span>
+        <i class="dt_caret down"></i>
+    </div>
       <hr style="max-width:100%;">
 
       <div id="chartdiv"></div>
 
       <hr style="max-width:100%;">
+      <div id="spinner" style="display: inline-block" class="loading-spinner"></div>
     `)
-
+    setupDatePicker();
   }
 
-  window.get_users_activity = function get_users_activity() {
 
 
+  window.get_users_activity = function get_users_activity(startDate, endDate, label) {
     let localizedObject = window.users_activity // change this object to the one named in ui-menu-and-enqueue.php
-
-    $('#sample_spinner').addClass("active")
-
+    $('#spinner').addClass("active")
+    let data = { "startDate": startDate , "endDate": endDate };
+    // let data = {};
     return jQuery.ajax({
       type: "POST",
+      data: JSON.stringify(data),
       contentType: "application/json; charset=utf-8",
       dataType: "json",
       url: `${localizedObject.rest_endpoints_base}/user_activity`,
@@ -48,20 +54,20 @@
       },
     })
     .done(function (data) {
-      $('#sample_spinner').removeClass("active")
-      console.log( 'success' )
-      console.log( data )
+      $('#spinner').removeClass("active")
       build_table( data );
+      if (data) {
+        $('.date_range_picker span').html( label );
+      }
     })
     .fail(function (err) {
-      $('#sample_spinner').removeClass("active")
+      $('#spinner').removeClass("active")
       console.log("error");
       console.log(err);
     })
   }
 
   function build_table(data) {
-    console.log("build table");
     let header_row_html = build_quickAction_header();
     let user_rows_html = build_user_activity_rows(data);
     let table_html = `<table>
@@ -71,9 +77,8 @@
     jQuery('#chartdiv').html(table_html);
 
   }
-})();
 
-function build_user_activity_rows(data) {
+  function build_user_activity_rows(data) {
   let userActivityRow = '';
   for (const userName in data) {
     let row_html = build_quickAction_totals(data[userName]);
@@ -105,3 +110,55 @@ function build_quickAction_header() {
   })
   return header_row_html;
 }
+
+function setupDatePicker(startDate, endDate) {
+  $(".date_range_picker").daterangepicker(
+    {
+      showDropdowns: true,
+      ranges: {
+        "All time": [moment(0), moment().endOf("year")],
+        [moment().format("MMMM YYYY")]: [
+          moment().startOf("month"),
+          moment().endOf("month"),
+        ],
+        [moment().subtract(1, "month").format("MMMM YYYY")]: [
+          moment().subtract(1, "month").startOf("month"),
+          moment().subtract(1, "month").endOf("month"),
+        ],
+        [moment().subtract(2, "month").format("MMMM YYYY")]: [
+          moment().subtract(2, "month").startOf("month"),
+          moment().subtract(2, "month").endOf("month"),
+        ],
+        [moment().subtract(3, "month").format("MMMM YYYY")]: [
+          moment().subtract(3, "month").startOf("month"),
+          moment().subtract(3, "month").endOf("month"),
+        ],
+        [moment().format("YYYY")]: [
+          moment().startOf("year"),
+          moment().endOf("year"),
+        ],
+        [moment().subtract(1, "year").format("YYYY")]: [
+          moment().subtract(1, "year").startOf("year"),
+          moment().subtract(1, "year").endOf("year"),
+        ],
+        [moment().subtract(2, "year").format("YYYY")]: [
+          moment().subtract(2, "year").startOf("year"),
+          moment().subtract(2, "year").endOf("year"),
+        ],
+      },
+      linkedCalendars: false,
+      locale: {
+        format: "YYYY-MM-DD",
+      },
+      startDate: startDate || moment(0),
+      endDate: endDate || moment().endOf("year").format("YYYY-MM-DD"),
+    },
+    function (start, end, label) {
+      $(".loading-spinner").addClass("active");
+      get_users_activity(start.unix(),end.unix(), label);
+    }
+  );
+}
+
+})();
+

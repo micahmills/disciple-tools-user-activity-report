@@ -86,6 +86,18 @@ class disciple_tools_user_activity_report_Chart_Template extends DT_Metrics_Char
     }
 
     public function user_activity( WP_REST_Request $request ) {
+        $params = $request->get_params();
+        dt_write_log($params);
+        if ( isset( $params['startDate'] ) ) {
+            $startTime = 'AND hist_time >= '. $params['startDate'];
+        } else {
+            $startTime = '';
+        }
+        if ( isset( $params['endDate'] ) ) {
+            $endTime = 'AND hist_time <= '. $params['endDate'];
+        } else {
+            $endTime = '';
+        }
         global $wpdb;
         $userids = get_users( array( 'fields' => array( 'ID', 'display_name' ) ) );
         $all_user_activity = array();
@@ -96,9 +108,10 @@ class disciple_tools_user_activity_report_Chart_Template extends DT_Metrics_Char
             SELECT user_id, hist_time, meta_id, meta_key, meta_value
             FROM $wpdb->dt_activity_log
             WHERE user_id = %s
-            AND hist_time >= 1623062500
+            $startTime
+            $endTime
             AND meta_key LIKE '%quick_button%'
-            ", $userid->ID), ARRAY_A );
+            ", $userid->ID, $startTime, $endTime), ARRAY_A );
 
             $all_user_activity[ $userid->display_name ] = array();
 
