@@ -13,7 +13,7 @@ class disciple_tools_user_activity_report_Charts
 
     public function __construct(){
 
-        require_once( 'one-page-chart-template.php' );
+        require_once( 'users_activity_chart.php' );
         new disciple_tools_user_activity_report_Chart_Template();
 
         /**

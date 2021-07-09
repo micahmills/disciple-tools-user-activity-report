@@ -9,12 +9,12 @@ if ( !defined( 'ABSPATH' ) ) { exit; } // Exit if accessed directly.
 class disciple_tools_user_activity_report_Chart_Template extends DT_Metrics_Chart_Base
 {
     public $base_slug = 'disciple-tools-user-activity-report-metrics'; // lowercase
-    public $base_title = "User Activity Report Metrics";
+    public $base_title = "User Activity Report";
 
-    public $title = 'Template';
-    public $slug = 'template'; // lowercase
+    public $title = 'Users Activity';
+    public $slug = 'usersactivity'; // lowercase
     public $js_object_name = 'wp_js_object'; // This object will be loaded into the metrics.js file by the wp_localize_script.
-    public $js_file_name = 'one-page-chart-template.js'; // should be full file name plus extension
+    public $js_file_name = 'users_activity_chart.js'; // should be full file name plus extension
     public $permissions = [ 'dt_all_access_contacts', 'view_project_metrics' ];
 
     public function __construct() {
@@ -65,7 +65,7 @@ class disciple_tools_user_activity_report_Chart_Template extends DT_Metrics_Char
                 ],
                 'translations' => [
                     "title" => $this->title,
-                    "Sample API Call" => __( "Sample API Call" )
+                    "User Activity API Call" => __( "User Activity API Call" )
                 ]
             ]
         );
@@ -74,9 +74,9 @@ class disciple_tools_user_activity_report_Chart_Template extends DT_Metrics_Char
     public function add_api_routes() {
         $namespace = "$this->base_slug/$this->slug";
         register_rest_route(
-            $namespace, '/sample', [
+            $namespace, '/user_activity', [
                 'methods'  => 'POST',
-                'callback' => [ $this, 'sample' ],
+                'callback' => [ $this, 'user_activity' ],
                 'permission_callback' => function( WP_REST_Request $request ) {
                     return $this->has_permission();
                 },
@@ -84,15 +84,24 @@ class disciple_tools_user_activity_report_Chart_Template extends DT_Metrics_Char
         );
     }
 
-    public function sample( WP_REST_Request $request ) {
-        $params = $request->get_params();
-        if ( isset( $params['button_data'] ) ) {
-            // Do something
-            $results = $params['button_data'];
-            return $results;
-        } else {
-            return new WP_Error( __METHOD__, 'Missing parameters.' );
+    public function user_activity( WP_REST_Request $request ) {
+        global $wpdb;
+        $userids = get_users( array( 'fields' => array( 'ID' ) ) );
+        $all_user_activity = array();
+
+        foreach ($userids as $userid) {
+            //TODO: Make hist_time dynamic
+            $user_activity = $wpdb->get_results( $wpdb->prepare( "
+            SELECT user_id, hist_time, meta_id, meta_key, meta_value
+            FROM $wpdb->dt_activity_log
+            WHERE user_id = %s
+            AND hist_time >= 1623062500
+            AND meta_key LIKE '%quick_button%'
+            ", $userid->ID), ARRAY_A );
+
+            $all_user_activity = array_merge($all_user_activity, $user_activity);
         }
+        return $all_user_activity;
     }
 
 }

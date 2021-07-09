@@ -21,9 +21,9 @@
       <span class="section-header">${localizedObject.translations.title}</span>
 
       <hr style="max-width:100%;">
-      
+
       <div id="chartdiv"></div>
-      
+
       <hr style="max-width:100%;">
 
       <button type="button" onclick="sample_api_call('Yeh successful response from API!')" class="button" id="sample_button">${translations["Sample API Call"]}</button>
@@ -84,7 +84,7 @@
       data: JSON.stringify(data),
       contentType: "application/json; charset=utf-8",
       dataType: "json",
-      url: `${localizedObject.rest_endpoints_base}/sample`,
+      url: `${localizedObject.rest_endpoints_base}/user_activity`,
       beforeSend: function(xhr) {
         xhr.setRequestHeader('X-WP-Nonce', localizedObject.nonce);
       },
