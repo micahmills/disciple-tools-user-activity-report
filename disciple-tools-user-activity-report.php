@@ -96,13 +96,13 @@ class disciple_tools_user_activity_report {
          * @todo Decide if you want to create a new post type
          * To remove: delete the line below and remove the folder named /post-type
          */
-        require_once( 'post-type/loader.php' ); // add starter post type extension to Disciple Tools system
+        //require_once( 'post-type/loader.php' ); // add starter post type extension to Disciple Tools system
 
         /**
          * @todo Decide if you want to create a custom site-to-site link
          * To remove: delete the line below and remove the folder named /site-link
          */
-        require_once( 'site-link/custom-site-to-site-links.php' ); // add site to site link class and capabilities
+        //require_once( 'site-link/custom-site-to-site-links.php' ); // add site to site link class and capabilities
 
         /**
          * @todo Decide if you want to add new charts to the metrics section
@@ -116,21 +116,21 @@ class disciple_tools_user_activity_report {
          * @todo Decide if you want to add a custom tile
          * To remove: delete the line below and remove the folder named /tile
          */
-        require_once( 'tile/custom-tile.php' ); // add custom tile
+        //require_once( 'tile/custom-tile.php' ); // add custom tile
 
         /**
          * @todo Decide if you want to create a magic link
          * To remove: delete the line below and remove the folder named /magic-link
          */
-        require_once( 'magic-link/magic-link.php' );
+        //require_once( 'magic-link/magic-link.php' );
 
         /**
          * @todo Decide if you want to add a custom admin page in the admin area
          * To remove: delete the 3 lines below and remove the folder named /admin
          */
-        if ( is_admin() ) {
-            require_once( 'admin/admin-menu-and-tabs.php' ); // adds starter admin page and section for plugin
-        }
+        // if ( is_admin() ) {
+        //     require_once( 'admin/admin-menu-and-tabs.php' ); // adds starter admin page and section for plugin
+        // }
 
         /**
          * @todo Decide if you want to support localization of your plugin
@@ -142,25 +142,10 @@ class disciple_tools_user_activity_report {
          * @todo Decide if you want to customize links for your plugin in the plugin admin area
          * To remove: delete the lines below and remove the function named
          */
-        if ( is_admin() ) { // adds links to the plugin description area in the plugin admin list.
-            add_filter( 'plugin_row_meta', [ $this, 'plugin_description_links' ], 10, 4 );
-        }
+        // if ( is_admin() ) { // adds links to the plugin description area in the plugin admin list.
+        //     add_filter( 'plugin_row_meta', [ $this, 'plugin_description_links' ], 10, 4 );
+        // }
 
-    }
-
-    /**
-     * Filters the array of row meta for each/specific plugin in the Plugins list table.
-     * Appends additional links below each/specific plugin on the plugins page.
-     */
-    public function plugin_description_links( $links_array, $plugin_file_name, $plugin_data, $status ) {
-        if ( strpos( $plugin_file_name, basename( __FILE__ ) ) ) {
-            // You can still use `array_unshift()` to add links at the beginning.
-
-            $links_array[] = '<a href="https://disciple.tools">Disciple.Tools Community</a>'; // @todo replace with your links.
-            // @todo add other links here
-        }
-
-        return $links_array;
     }
 
     /**
