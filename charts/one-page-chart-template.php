@@ -6,10 +6,10 @@ if ( !defined( 'ABSPATH' ) ) { exit; } // Exit if accessed directly.
  * @todo also rename in charts-loader.php
  */
 
-class Disciple_Tools_Plugin_Starter_Template_Chart_Template extends DT_Metrics_Chart_Base
+class disciple_tools_user_activity_report_Chart_Template extends DT_Metrics_Chart_Base
 {
-    public $base_slug = 'disciple-tools-plugin-starter-template-metrics'; // lowercase
-    public $base_title = "Plugin Starter Template Metrics";
+    public $base_slug = 'disciple-tools-user-activity-report-metrics'; // lowercase
+    public $base_title = "User Activity Report Metrics";
 
     public $title = 'Template';
     public $slug = 'template'; // lowercase

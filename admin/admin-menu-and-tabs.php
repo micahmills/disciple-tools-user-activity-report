@@ -2,22 +2,22 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; } // Exit if accessed directly
 
 /**
- * Class Disciple_Tools_Plugin_Starter_Template_Menu
+ * Class disciple_tools_user_activity_report_Menu
  */
-class Disciple_Tools_Plugin_Starter_Template_Menu {
+class disciple_tools_user_activity_report_Menu {
 
-    public $token = 'disciple_tools_plugin_starter_template';
+    public $token = 'disciple_tools_user_activity_report';
 
     private static $_instance = null;
 
     /**
-     * Disciple_Tools_Plugin_Starter_Template_Menu Instance
+     * disciple_tools_user_activity_report_Menu Instance
      *
-     * Ensures only one instance of Disciple_Tools_Plugin_Starter_Template_Menu is loaded or can be loaded.
+     * Ensures only one instance of disciple_tools_user_activity_report_Menu is loaded or can be loaded.
      *
      * @since 0.1.0
      * @static
-     * @return Disciple_Tools_Plugin_Starter_Template_Menu instance
+     * @return disciple_tools_user_activity_report_Menu instance
      */
     public static function instance() {
         if ( is_null( self::$_instance ) ) {
@@ -44,7 +44,7 @@ class Disciple_Tools_Plugin_Starter_Template_Menu {
      * @since 0.1
      */
     public function register_menu() {
-        add_submenu_page( 'dt_extensions', 'Plugin Starter Template', 'Plugin Starter Template', 'manage_dt', $this->token, [ $this, 'content' ] );
+        add_submenu_page( 'dt_extensions', 'User Activity Report', 'User Activity Report', 'manage_dt', $this->token, [ $this, 'content' ] );
     }
 
     /**
@@ -72,7 +72,7 @@ class Disciple_Tools_Plugin_Starter_Template_Menu {
 
         ?>
         <div class="wrap">
-            <h2>Plugin Starter Template</h2>
+            <h2>User Activity Report</h2>
             <h2 class="nav-tab-wrapper">
                 <a href="<?php echo esc_attr( $link ) . 'general' ?>"
                    class="nav-tab <?php echo esc_html( ( $tab == 'general' || !isset( $tab ) ) ? 'nav-tab-active' : '' ); ?>">General</a>
@@ -82,11 +82,11 @@ class Disciple_Tools_Plugin_Starter_Template_Menu {
             <?php
             switch ($tab) {
                 case "general":
-                    $object = new Disciple_Tools_Plugin_Starter_Template_Tab_General();
+                    $object = new disciple_tools_user_activity_report_Tab_General();
                     $object->content();
                     break;
                 case "second":
-                    $object = new Disciple_Tools_Plugin_Starter_Template_Tab_Second();
+                    $object = new disciple_tools_user_activity_report_Tab_Second();
                     $object->content();
                     break;
                 default:
@@ -99,12 +99,12 @@ class Disciple_Tools_Plugin_Starter_Template_Menu {
         <?php
     }
 }
-Disciple_Tools_Plugin_Starter_Template_Menu::instance();
+disciple_tools_user_activity_report_Menu::instance();
 
 /**
- * Class Disciple_Tools_Plugin_Starter_Template_Tab_General
+ * Class disciple_tools_user_activity_report_Tab_General
  */
-class Disciple_Tools_Plugin_Starter_Template_Tab_General {
+class disciple_tools_user_activity_report_Tab_General {
     public function content() {
         ?>
         <div class="wrap">
@@ -179,9 +179,9 @@ class Disciple_Tools_Plugin_Starter_Template_Tab_General {
 
 
 /**
- * Class Disciple_Tools_Plugin_Starter_Template_Tab_Second
+ * Class disciple_tools_user_activity_report_Tab_Second
  */
-class Disciple_Tools_Plugin_Starter_Template_Tab_Second {
+class disciple_tools_user_activity_report_Tab_Second {
     public function content() {
         ?>
         <div class="wrap">
