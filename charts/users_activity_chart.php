@@ -8,12 +8,12 @@ if ( !defined( 'ABSPATH' ) ) { exit; } // Exit if accessed directly.
 
 class disciple_tools_user_activity_report_Chart_Template extends DT_Metrics_Chart_Base
 {
-    public $base_slug = 'disciple-tools-user-activity-report-metrics'; // lowercase
+    public $base_slug = 'user-activity-report-metrics'; // lowercase
     public $base_title = "User Activity Report";
 
     public $title = 'Users Activity';
     public $slug = 'usersactivity'; // lowercase
-    public $js_object_name = 'wp_js_object'; // This object will be loaded into the metrics.js file by the wp_localize_script.
+    public $js_object_name = 'users_activity'; // This object will be loaded into the metrics.js file by the wp_localize_script.
     public $js_file_name = 'users_activity_chart.js'; // should be full file name plus extension
     public $permissions = [ 'dt_all_access_contacts', 'view_project_metrics' ];
 
@@ -39,7 +39,7 @@ class disciple_tools_user_activity_report_Chart_Template extends DT_Metrics_Char
      * Load scripts for the plugin
      */
     public function scripts() {
-
+        $post_settings = DT_Posts::get_post_settings( 'contacts' );
         wp_register_script( 'amcharts-core', 'https://www.amcharts.com/lib/4/core.js', false, '4' );
         wp_register_script( 'amcharts-charts', 'https://www.amcharts.com/lib/4/charts.js', false, '4' );
 
@@ -66,7 +66,8 @@ class disciple_tools_user_activity_report_Chart_Template extends DT_Metrics_Char
                 'translations' => [
                     "title" => $this->title,
                     "User Activity API Call" => __( "User Activity API Call" )
-                ]
+                ],
+                'post_type_settings' => $post_settings
             ]
         );
     }
@@ -90,7 +91,6 @@ class disciple_tools_user_activity_report_Chart_Template extends DT_Metrics_Char
         $all_user_activity = array();
 
         foreach ($userids as $userid) {
-            $contact_fields = DT_Posts::get_post_field_settings( "contacts" );
             //TODO: Make hist_time comparison based on user selection
             $user_activity = $wpdb->get_results( $wpdb->prepare( "
             SELECT user_id, hist_time, meta_id, meta_key, meta_value
@@ -102,18 +102,14 @@ class disciple_tools_user_activity_report_Chart_Template extends DT_Metrics_Char
 
             $all_user_activity[ $userid->display_name ] = array();
 
-            $contact_fields = DT_Posts::get_post_field_settings( "contacts" );
-
             foreach($user_activity as $action) {
                 $quick_action_key = $action["meta_key"];
 
-                $quick_action_total = isset($all_user_activity[ $userid->display_name ][$quick_action_key]) && !empty($all_user_activity[ $userid->display_name ][$quick_action_key]) ? $all_user_activity[ $userid->display_name ][$quick_action_key][1] : 0;
+                $quick_action_total = isset($all_user_activity[ $userid->display_name ][$quick_action_key]) && !empty($all_user_activity[ $userid->display_name ][$quick_action_key]) ? $all_user_activity[ $userid->display_name ][$quick_action_key] : 0;
 
                 $quick_action_total++;
 
-                $all_user_activity[ $userid->display_name ][$quick_action_key][0] = $contact_fields[$quick_action_key]['name'];
-
-                $all_user_activity[ $userid->display_name ][$quick_action_key][1] = $quick_action_total;
+                $all_user_activity[ $userid->display_name ][$quick_action_key] = $quick_action_total;
 
             }
 
