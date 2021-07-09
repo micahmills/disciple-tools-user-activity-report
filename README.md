@@ -6,24 +6,17 @@ This Plugin will provide a report of what activities (Quick Actions) were comple
 
 ## Purpose
 
-Purpose purpose purpose purpose purpose purpose purpose purpose purpose purpose purpose
-Purpose purpose purpose purpose purpose purpose purpose purpose purpose purpose purpose
-
-Purpose purpose purpose purpose purpose purpose purpose purpose purpose purpose purpose
-Purpose purpose purpose purpose purpose purpose purpose purpose purpose purpose purpose
+This is a quick way to see how many quick action tasks users has completed over a period of time. This can be helpful to track and manage your teams interactions and time spent.
 
 ## Usage
 
 #### Will Do
 
-- Item
-- Item
-- Item
+- Show a table of all "Quick Actions" completed by a user in a given time period, including custom quick actions.
 
 #### Will Not Do
 
-- Item
-- Item
+- Count other data points from DT, like  Baptisms, or users created or assigned.
 
 ## Requirements
 
@@ -37,13 +30,9 @@ Purpose purpose purpose purpose purpose purpose purpose purpose purpose purpose 
 ## Contribution
 
 Contributions welcome. You can report issues and bugs in the
-[Issues](https://github.com/DiscipleTools/disciple-tools-user-activity-report/issues) section of the repo. You can present ideas
-in the [Discussions](https://github.com/DiscipleTools/disciple-tools-user-activity-report/discussions) section of the repo. And
-code contributions are welcome using the [Pull Request](https://github.com/DiscipleTools/disciple-tools-user-activity-report/pulls)
+[Issues](https://github.com/micahmills/disciple-tools-user-activity-report/issues) section of the repo. You can present ideas
+in the [Discussions](https://github.com/micahmills/disciple-tools-user-activity-report/discussions) section of the repo. And
+code contributions are welcome using the [Pull Request](https://github.com/micahmills/disciple-tools-user-activity-report/pulls)
 system for git. For a more details on contribution see the
 [contribution guidelines](https://github.com/DiscipleTools/disciple-tools-user-activity-report/blob/master/CONTRIBUTING.md).
 
-
-## Screenshots
-
-![screenshot](documentation/community/starter-banners/banner-blue-green.png)
