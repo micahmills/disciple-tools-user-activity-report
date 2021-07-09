@@ -86,8 +86,8 @@ class disciple_tools_user_activity_report_Chart_Template extends DT_Metrics_Char
     }
 
     public function user_activity( WP_REST_Request $request ) {
+        global $wpdb;
         $params = $request->get_params();
-        dt_write_log($params);
         if ( isset( $params['startDate'] ) ) {
             $startTime = 'AND hist_time >= '. $params['startDate'];
         } else {
@@ -98,12 +98,20 @@ class disciple_tools_user_activity_report_Chart_Template extends DT_Metrics_Char
         } else {
             $endTime = '';
         }
-        global $wpdb;
-        $userids = get_users( array( 'fields' => array( 'ID', 'display_name' ) ) );
+        $user = wp_get_current_user();
+        if ( in_array( 'administrator', (array) $user->roles ) || in_array( 'dt_admin', (array) $user->roles ) || in_array( 'strategist', (array) $user->roles ) || in_array( 'user_manager', (array) $user->roles ) ) {
+            $userids = get_users( array( 'fields' => array( 'ID', 'display_name' ) ) );
+        } else {
+            $userids = array( (object) [
+                'ID' => $user->ID,
+                'display_name' => $user->display_name,
+            ]
+            );
+        }
+
         $all_user_activity = array();
 
         foreach ($userids as $userid) {
-            //TODO: Make hist_time comparison based on user selection
             $user_activity = $wpdb->get_results( $wpdb->prepare( "
             SELECT user_id, hist_time, meta_id, meta_key, meta_value
             FROM $wpdb->dt_activity_log
