@@ -34,5 +34,5 @@ Contributions welcome. You can report issues and bugs in the
 in the [Discussions](https://github.com/micahmills/disciple-tools-user-activity-report/discussions) section of the repo. And
 code contributions are welcome using the [Pull Request](https://github.com/micahmills/disciple-tools-user-activity-report/pulls)
 system for git. For a more details on contribution see the
-[contribution guidelines](https://github.com/DiscipleTools/disciple-tools-user-activity-report/blob/master/CONTRIBUTING.md).
+[contribution guidelines](https://github.com/micahmills/disciple-tools-user-activity-report/blob/master/CONTRIBUTING.md).
 

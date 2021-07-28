@@ -1,13 +1,13 @@
 <?php
 /**
  * Plugin Name: Disciple Tools - User Activity Report
- * Plugin URI: https://github.com/DiscipleTools/disciple-tools-user-activity-report
+ * Plugin URI: https://github.com/micahmills/disciple-tools-user-activity-report
  * Description: Disciple Tools - User Activity Report is intended to help developers and integrator jumpstart their extension of the Disciple Tools system.
  * Text Domain: disciple-tools-user-activity-report
  * Domain Path: /languages
  * Version:  0.1
  * Author URI: https://github.com/DiscipleTools
- * GitHub Plugin URI: https://github.com/DiscipleTools/disciple-tools-user-activity-report
+ * GitHub Plugin URI: https://github.com/micahmills/disciple-tools-user-activity-report
  * Requires at least: 4.7.0
  * (Requires 4.7+ because of the integration of the REST API at 4.7 and the security requirements of this milestone version.)
  * Tested up to: 5.6
@@ -291,7 +291,7 @@ if ( ! function_exists( "dt_hook_ajax_notice_handler" )){
  * This section runs the remote plugin updating service, so you can issue distributed updates to your plugin
  *
  * @note See the instructions for version updating to understand the steps involved.
- * @link https://github.com/DiscipleTools/disciple-tools-user-activity-report/wiki/Configuring-Remote-Updating-System
+ * @link https://github.com/micahmills/disciple-tools-user-activity-report/wiki/Configuring-Remote-Updating-System
  *
  * @todo Enable this section with your own hosted file
  * @todo An example of this file can be found in (version-control.json)
